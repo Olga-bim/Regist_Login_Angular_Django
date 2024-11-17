@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';  // Импортируем FormsModule для использования ngModel
-import { CommonModule } from '@angular/common';  // Импортируем CommonModule для использования директив ngIf, ngFor
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule],  // Добавляем CommonModule в imports
+  imports: [FormsModule, CommonModule, HttpClientModule], // Добавлено HttpClientModule
   template: `
     <div class="login-form">
       <h1>Login</h1>
       <form (ngSubmit)="onSubmit()">
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" [(ngModel)]="username" required />
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" [(ngModel)]="email" required />
 
         <label for="password">Password</label>
         <input id="password" name="password" type="password" [(ngModel)]="password" required />
@@ -20,18 +21,34 @@ import { CommonModule } from '@angular/common';  // Импортируем Commo
       </form>
 
       <p *ngIf="loginSuccess" class="success-message">Login successful!</p>
+      <p *ngIf="loginError" class="error-message">Error: {{ loginError }}</p>
     </div>
   `,
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
   loginSuccess: boolean = false;
+  loginError: string | null = null;
+
+  constructor(private http: HttpClient) {}
 
   onSubmit() {
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
-    this.loginSuccess = true; // Устанавливаем флаг успешного логина
+    this.http.post('http://127.0.0.1:8000/api/auth/login/', {
+      email: this.email,
+      password: this.password
+    }).subscribe({
+      next: (response: any) => {
+        localStorage.setItem('access', response.access);
+        localStorage.setItem('refresh', response.refresh);
+        this.loginSuccess = true;
+        this.loginError = null;
+      },
+      error: (err) => {
+        this.loginError = err.error.detail || 'Invalid login credentials';
+        this.loginSuccess = false;
+      }
+    });
   }
 }

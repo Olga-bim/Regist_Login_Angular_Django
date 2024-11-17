@@ -19,8 +19,8 @@ from .views import RegistrationView, LoginView, TokenRefreshView, ProtectedView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    path('register/', RegistrationView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('protected/', ProtectedView.as_view(), name='protected'),
+    path('api/auth/register/', RegistrationView.as_view(), name='register'),
+    path('api/auth/login/', LoginView.as_view(), name='login'),
+    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/protected/', ProtectedView.as_view(), name='protected'),
 ]

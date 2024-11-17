@@ -16,8 +16,8 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Время жизни токена доступа
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # Время жизни токена обновления
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Время действия токена
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Время действия refresh токена
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
 }
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
     'auth_app',  # наше приложение аутентификации
 ]
@@ -62,6 +63,9 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+     'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 

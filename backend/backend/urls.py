@@ -19,7 +19,6 @@ from django.urls import path, include
 from auth_app import views
 
 urlpatterns = [
-    path('', views.home, name='home'),  # маршрут для корневой страницы
     path('admin/', admin.site.urls),
-    path('api/auth/', include('auth_app.urls')),
+    path('', include('auth_app.urls')),  # Убедитесь, что здесь правильно указано приложение
 ]

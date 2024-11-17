@@ -2,9 +2,9 @@
 # Backend - Django and Django REST Framework
 # Frontend - Angular
 
-## 1. Создадим основную директорию проекта Angular_Django_Login_Reg:
-    mkdir Angular_Django_Login_Reg
-    cd Angular_Django_Login_Reg
+## 1. Создадим основную директорию проекта Regist_Login_Angular_Django:
+    mkdir Regist_Login_Angular_Django
+    cd Regist_Login_Angular_Django
 
 ## 2. Внутри нее создадим папки для бэкенда (backend) и фронтенда (frontend):
     mkdir backend
@@ -132,26 +132,8 @@ SIMPLE_JWT = {
 
 2. Добавьте маршруты в проект:
 
-Откройте файл src/app/app-routing.module.ts и настройте маршруты:
-    import { NgModule } from '@angular/core';
-    import { RouterModule, Routes } from '@angular/router';
-    import { HomeComponent } from './home/home.component';
-
-    const routes: Routes = [
-    { path: '', component: HomeComponent }
-    ];
-
-    @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-    })
-    export class AppRoutingModule { }
-
-
 3. Обновите файл src/app/app.component.html, чтобы использовать <router-outlet> для отображения маршрутов:
-    <h1>Welcome to My Angular App!</h1>
-    <router-outlet></router-outlet>
-
+   
 4. Запуск проекта для проверки 
     ng serve
 
