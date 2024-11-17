@@ -1,0 +1,178 @@
+# Project Login Register
+# Backend - Django and Django REST Framework
+# Frontend - Angular
+
+## 1. Создадим основную директорию проекта Angular_Django_Login_Reg:
+    mkdir Angular_Django_Login_Reg
+    cd Angular_Django_Login_Reg
+
+## 2. Внутри нее создадим папки для бэкенда (backend) и фронтенда (frontend):
+    mkdir backend
+    mkdir frontend
+
+
+### 1. Настройка бэкенда с Django и Django REST Framework
+    cd backend
+    python -m venv env
+    source env/bin/activate  # Для Windows: env\Scripts\activate
+
+2. Установим Django и Django REST Framework:
+    pip install django djangorestframework
+    pip install django-cors-headers
+    pip install djangorestframework-simplejwt
+
+
+    Pip freeze >  requirements.txt
+
+3. Инициализируем Django-проект:
+    django-admin startproject backend .
+
+4. Создадим приложение для аутентификации:
+    python manage.py startapp auth_app
+
+5. Включим auth_app и rest_framework в INSTALLED_APPS в файле backend/settings.py:
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+
+        'rest_framework',
+        'rest_framework_simplejwt',
+        'corsheaders',
+        'auth_app',  # наше приложение аутентификации
+    ]
+
+    AUTH_USER_MODEL = 'yourappname.CustomUser'  # замените на ваше имя приложения
+
+    MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        ...
+    ]
+
+    Добавим в файл backend/settings.py:
+        CORS_ALLOW_ALL_ORIGINS = True
+
+
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ),
+    }
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Время жизни токена доступа
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # Время жизни токена обновления
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+6. Настроим базу данных в settings.py. Пусть будет SQLite:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+7. В приложении auth_app создадим модель пользователя. Например:
+  
+
+8. В auth_app создадим сериализаторы и представления для регистрации и логина:
+
+    Создаем файл serializers.py в auth_app и добавляем код для сериализации:
+    
+    Создаем файл views.py и добавляем представления для регистрации и входа:
+    
+9. Настроим маршруты. В auth_app создаем файл urls.py:
+  
+10. Подключим auth_app URL к backend/urls.py:
+ 
+11. В файл  admin.py добавим :
+
+12. Применим миграции и создадим суперпользователя:
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+
+13. Запустим сервер
+    python manage.py runserver  (run the server)
+
+
+### 2. Настройка Установка Angular для фронтенда
+
+1. Установка Node.js и npm (если они не установлены)
+2. Установка Angular CLI: В командной строке выполните команду для установки Angular CLI:
+    npm install -g @angular/cli
+3. Создание нового проекта Angular
+    ng new frontend
+
+
+4. Перейти в папку frontend:
+    cd frontend
+
+4. Установка зависимостей:
+    npm install
+
+
+
+6. Запуск проекта: Чтобы убедиться, что проект создан и работает, выполните команду:
+    ng serve
+    или
+    ng serve -o
+
+
+###  Шаг 3: Настройка проекта:
+   1. - ng g c home
+
+2. Добавьте маршруты в проект:
+
+Откройте файл src/app/app-routing.module.ts и настройте маршруты:
+    import { NgModule } from '@angular/core';
+    import { RouterModule, Routes } from '@angular/router';
+    import { HomeComponent } from './home/home.component';
+
+    const routes: Routes = [
+    { path: '', component: HomeComponent }
+    ];
+
+    @NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+    })
+    export class AppRoutingModule { }
+
+
+3. Обновите файл src/app/app.component.html, чтобы использовать <router-outlet> для отображения маршрутов:
+    <h1>Welcome to My Angular App!</h1>
+    <router-outlet></router-outlet>
+
+4. Запуск проекта для проверки 
+    ng serve
+
+5. 
+      - ng g c register   или ng generate component register
+
+      - ng g c login или ng generate component login
+6. Настройка формы для компонентов Register и Login
+      
+
+
+
+3. 1. Очистка кэша npm и Angular CLI
+Иногда проблемы могут быть вызваны кэшированными данными. Попробуйте очистить кэш и перезапустить проект.
+
+    Очистите кэш npm:
+    npm cache clean --force
+
+
+    Очистите кэш Angular CLI:
+    ng cache clean
+
+    После этого попробуйте снова запустить сервер:
+    ng serve
